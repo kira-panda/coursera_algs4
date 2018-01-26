@@ -2,21 +2,17 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
 	private double[] p_arr;
-	private int sze;
 	private int n_trial;
 	public PercolationStats(int n,int trials){
-		sze=n;
-		n_trial=trials;
-		p_arr = new double[trials];
-		for(int i=0;i<trials;++i){
-			p_arr[i]=perc_wrapper(n);
-		}
+	if(n<1||trials<1)throw new java.lang.IllegalArgumentException("Enter matrix size and trials");
+	n_trial=trials;
+	p_arr = new double[trials];
+		for(int i=0;i<trials;++i) p_arr[i]=perc_wrapper(n);
 	}
 	
 	private double perc_wrapper(int n){
 		Percolation perc = new Percolation(n);
 		while(!perc.percolates()){
-			
 			int row = StdRandom.uniform(1, n+1);
 			int col = StdRandom.uniform(1, n+1);
 			perc.open(row, col);
@@ -33,22 +29,17 @@ public class PercolationStats {
 
 	
 	public double confidenceLo(){
-		return StdStats.(p_arr);
+		return mean()-((1.96*stddev())/Math.sqrt(n_trial));
 	}
 	
-	public double mean(){
-		return StdStats.mean(p_arr);
+	public double confidenceHi(){
+		return mean()-((1.96*stddev())/Math.sqrt(n_trial));
 	}
 	
-	public double print_arr(){
-		double sum=0;
-		for(int i=0;i<p_arr.length;++i){
-			sum+=p_arr[i];
-		}	
-		return  sum/p_arr.length;
-	}
-	public static void main(String args[]){
-		PercolationStats pStats=new PercolationStats(1000,100);
-		System.out.print(pStats.print_arr());
+	public static void main(String[] args){
+		PercolationStats pStats = new PercolationStats(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+		System.out.println("mean                      ="+pStats.mean());
+		System.out.println("stddev                    ="+pStats.stddev());
+		System.out.println("confidence                ="+"["+pStats.confidenceLo()+" ,"+pStats.confidenceHi()+"]");
 	}
 }
