@@ -146,7 +146,10 @@ public class WeightedQuickUnionUF {
     public boolean connected(int p, int q) {
         return find(p) == find(q);
     }
-
+    
+    public int[] get_arr(){
+    	return parent;
+    }
     /**
      * Merges the component containing site {@code p} with the 
      * the component containing site {@code q}.
