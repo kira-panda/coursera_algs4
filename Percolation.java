@@ -7,6 +7,7 @@ public class Percolation {
 	private boolean[][] site_mark;
 	private WeightedQuickUnionUF var_1;
 	public Percolation(int N){
+		if(N<1)throw new java.lang.IllegalArgumentException("Enter valid args");
 		num_open=0;
 		sze=N;
 		top =0;
@@ -24,7 +25,7 @@ public class Percolation {
 	
 	public void open(int row,int col){
 		if(row>sze||col>sze||row<1||col<1){
-			throw new java.lang.IllegalArgumentException("Please enter value less than the size of site");
+			throw new java.lang.IllegalArgumentException("Enter valid argument");
 		}
 		if(!isOpen(row, col)){
 		site_mark[row-1][col-1]=true;
@@ -55,12 +56,10 @@ public class Percolation {
 		
 	
 	public boolean isFull(int row,int col){
-		if(row==sze){
-			if(isFull(row-1, col)||isFull(row-1, col)||isFull(row-1, col)){
-				return true;
-			}
-			else return false;
+		if(row>sze||col>sze||row<1||col<1){
+			throw new java.lang.IllegalArgumentException("Enter valid argument");
 		}
+
 		return var_1.connected(site_Num(row,col), top);	
 	}
 	
@@ -73,6 +72,10 @@ public class Percolation {
 	}
 	
 	public boolean isOpen(int row,int col){
+		if(row>sze||col>sze||row<1||col<1){
+			throw new java.lang.IllegalArgumentException("Enter valid argument");
+		}
+
 		return site_mark[row-1][col-1];
 	}
 	

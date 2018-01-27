@@ -3,11 +3,15 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
 	private double[] p_arr;
 	private int n_trial;
+	private double mean;
+	private double stdDev;
 	public PercolationStats(int n,int trials){
 	if(n<1||trials<1)throw new java.lang.IllegalArgumentException("Enter matrix size and trials");
 	n_trial=trials;
 	p_arr = new double[trials];
 		for(int i=0;i<trials;++i) p_arr[i]=perc_wrapper(n);
+		mean = StdStats.mean(p_arr);
+		stdDev = StdStats.stddev(p_arr); 
 	}
 	
 	private double perc_wrapper(int n){
@@ -20,20 +24,20 @@ public class PercolationStats {
 		return perc.numberOfOpenSites()/((float)n*n);
 	}
 	public double mean(){
-		return StdStats.mean(p_arr);
+		return mean;
 	}
 
 	public double stddev(){
-		return StdStats.stddev(p_arr);
+		return stdDev;
 	}
 
 	
 	public double confidenceLo(){
-		return mean()-((1.96*stddev())/Math.sqrt(n_trial));
+		return mean-((1.96*stdDev)/Math.sqrt(n_trial));
 	}
 	
 	public double confidenceHi(){
-		return mean()+((1.96*stddev())/Math.sqrt(n_trial));
+		return mean+((1.96*stdDev)/Math.sqrt(n_trial));
 	}
 	
 	public static void main(String[] args){
